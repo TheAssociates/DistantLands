@@ -4,7 +4,7 @@ import java.io.*;
 
 public enum Dir { //direction enumerator class 
 	//the directions and their corresponding coridinate change in (y,x) starting from the upper left
-	NORTH (-1,0), SOUTH (1,0), EAST (0,1), WEST (0,-1);
+	NORTH (1,0), SOUTH (-1,0), EAST (0,1), WEST (0,-1);
 	
 	private final int deltaY;
 	private final int deltaX;
