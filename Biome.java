@@ -26,7 +26,7 @@ public enum Biome{
 		while(chances.hasNext()){
 			temp = chances.next();
 			temp1 = chances.nextInt();
-			if(temp1.equals("ALL")){
+			if(temp.equals("ALL")){
 				for(Biome x : Biome.values()){
 					NeighborChance.put(x,new Integer(temp1));
 				}

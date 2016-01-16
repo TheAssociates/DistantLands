@@ -13,7 +13,7 @@ public class Zone{
 	public Zone(ArrayList<Zone> theList){
 		this.features = new ArrayList<Attribute>();
 		this.spiralLoc = theList.size();
-		this.relLoc = theList.get(theList.size-1).relLoc;
+		this.relLoc = theList.get(theList.size()-1).relLoc;
 		int ls = lastSquare(spiralLoc);
 		theList.add(this);
 		
