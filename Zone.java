@@ -8,7 +8,11 @@ public class Zone{
 	public int spiralLoc;
 	public int[] relLoc;
 	
-	
+	public Zone(ArrayList<Zone> theList, String xxx){
+		this.features = new ArrayList<Attribute>();
+		this.spiralLoc = 0;
+		this.relLoc = {0,0};
+	}
 	
 	public Zone(ArrayList<Zone> theList){
 		this.features = new ArrayList<Attribute>();
