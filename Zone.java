@@ -18,26 +18,10 @@ public class Zone{
 	public Zone(ArrayList<Zone> theList){
 		this.features = new ArrayList<Attribute>();
 		this.spiralLoc = theList.size();
-		this.relLoc = theList.get(theList.size()-1).relLoc;
-		int ls = lastSquare(spiralLoc);
+		this.relLoc = spTC(this.spiralLoc);
 		theList.add(this);
 		
-		if( ls % 2 == 0){
-			if(spiralLoc < ls + Math.sqrt(ls)){
-				this.relLoc = Dir.EAST.go(relLoc);
-			}
-			else {
-				this.relLoc = Dir.NORTH.go(relLoc);
-			}
-		}
-		if(lastSquare(spiralLoc) % 2 == 1){
-			if(spiralLoc < ls + Math.sqrt(ls)){
-				this.relLoc = Dir.WEST.go(relLoc);
-			}
-			else {
-				this.relLoc = Dir.SOUTH.go(relLoc);
-			}
-		}
+	
 		
 		
 	}
@@ -84,23 +68,23 @@ public class Zone{
 		this.region = reg;
 	}
 	
-	public static final int[] spiralToCartesian(int n){
+	public static int[] spTC(int n){
 		Complex i = new Complex(0,1);
 		int p = (int)Math.sqrt(4*n + 1);
-		int q = n - (int)p*p/4;
+		int q = n - (int)(p*p/4);
 		
 		Complex t1 = new Complex(0,1);
 		for(int j = 1; j < p; j++){
 			t1 = t1.times(i);
 		}
-		t1 = t1.times(new Complex(p,0));
+		t1 = t1.times(new Complex(q,0));
 		
 		int t2 = (int)((p+2)/4);
 		int t3 = (int)((p+1)/4);
 		
-		Complex t4 = t3.times(i);
+		Complex t4 = (new Complex(t3,0)).times(i);
 		
-		Complex t5 = (new Complex(t2,0)).minus(t2);
+		Complex t5 = (new Complex(t2,0)).minus(t4);
 		
 		Complex t6 = new Complex(0,1);
 		for(int j = 1; j < p-1; j++){
@@ -111,7 +95,7 @@ public class Zone{
 		
 		Complex total = t7.plus(t1);
 		
-		int[] out = {Re(total), Im(total)};
+		int[] out = {(int)total.im(), (int)total.re()};
 		return out;
 		
 	}
