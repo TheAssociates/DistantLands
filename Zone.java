@@ -9,12 +9,6 @@ public class Zone{
 	public int[] relLoc;
 	public Region region;
 	
-	public Zone(ArrayList<Zone> theList, String xxx){
-		this.features = new ArrayList<Attribute>();
-		this.spiralLoc = 0;
-		this.relLoc = {0,0};
-	}
-	
 	public Zone(ArrayList<Zone> theList){
 		this.features = new ArrayList<Attribute>();
 		this.spiralLoc = theList.size();
