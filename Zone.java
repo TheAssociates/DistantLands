@@ -7,6 +7,7 @@ public class Zone{
 	public ArrayList<Attribute> features;
 	public int spiralLoc;
 	public int[] relLoc;
+	public Region region;
 	
 	public Zone(ArrayList<Zone> theList, String xxx){
 		this.features = new ArrayList<Attribute>();
@@ -77,6 +78,42 @@ public class Zone{
 			out[locdat[0]][locdat[1]] = x; 
 		}
 		return out;
+	}
+	
+	public final void setRegion(Region reg){
+		this.region = reg;
+	}
+	
+	public static final int[] spiralToCartesian(int n){
+		Complex i = new Complex(0,1);
+		int p = (int)Math.sqrt(4*n + 1);
+		int q = n - (int)p*p/4;
+		
+		Complex t1 = new Complex(0,1);
+		for(int j = 1; j < p; j++){
+			t1 = t1.times(i);
+		}
+		t1 = t1.times(new Complex(p,0));
+		
+		int t2 = (int)((p+2)/4);
+		int t3 = (int)((p+1)/4);
+		
+		Complex t4 = t3.times(i);
+		
+		Complex t5 = (new Complex(t2,0)).minus(t2);
+		
+		Complex t6 = new Complex(0,1);
+		for(int j = 1; j < p-1; j++){
+			t6 = t6.times(i);
+		}
+		
+		Complex t7 = t5.times(t6);
+		
+		Complex total = t7.plus(t1);
+		
+		int[] out = {Re(total), Im(total)};
+		return out;
+		
 	}
 	
 }
