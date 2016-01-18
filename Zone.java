@@ -113,6 +113,7 @@ public class Zone{
 			for(int i = nextSquare(nextSquare(nextSquare(targ)-1)-1); i < nextSquare(nextSquare(targ)-1); i++){
 				toChk.add(new Integer(i));
 			}
+			
 			for(int i = nextSquare(nextSquare(nextSquare(targ)+1)+1); i < nextSquare(nextSquare(targ)+1); i++){
 				toChk.add(new Integer(i));
 			}
