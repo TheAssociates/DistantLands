@@ -8,6 +8,7 @@ public class Zone{
 	public int spiralLoc;
 	public int[] relLoc;
 	public Region region;
+	public ArrayList<Zone> theList;
 	
 	public Zone(ArrayList<Zone> theList){
 		
@@ -20,7 +21,7 @@ public class Zone{
 		
 	}
 	
-	private static final int lastSquare(int num){
+	private static final int nextSquare(int num){
 		int out = 0;
 		while(num < out*out){
 			out++;
@@ -92,6 +93,52 @@ public class Zone{
 		int[] out = {(int)total.im(), (int)total.re()};
 		return out;
 		
+	}
+	
+	public ArrayList<Zone> neighbors(){
+		Integer targ = new Integer(this.spiralLoc);
+		ArrayList<Integer> toChk = new ArrayList<Integer>();
+		ArrayList<Integer> nNums = new ArrayList<Integer>();
+		ArrayList<Zone> neiZones = new ArrayList<Zone>();
+		nNums.add(targ + 1);
+		nNums.add(targ - 1);
+		
+		if(nextSquare(targ) == targ){
+			
+			nNums.add(nextSquare(nextSquare(targ)+1)+1);
+			nNums.add(nextSquare(nextSquare(targ)+1)-1);
+			
+		} else {
+			
+			for(int i = nextSquare(nextSquare(nextSquare(targ)-1)-1); i < nextSquare(nextSquare(targ)-1); i++){
+				toChk.add(new Integer(i));
+			}
+			for(int i = nextSquare(nextSquare(nextSquare(targ)+1)+1); i < nextSquare(nextSquare(targ)+1); i++){
+				toChk.add(new Integer(i));
+			}
+			
+			for(Integer x : toChk){
+				if(theList.get(x).relLoc == Dir.NORTH.go(this.relLoc)){
+					nNums.add(x);
+				}
+				if(theList.get(x).relLoc == Dir.SOUTH.go(this.relLoc)){
+					nNums.add(x);
+				}
+				if(theList.get(x).relLoc == Dir.EAST.go(this.relLoc)){
+					nNums.add(x);
+				}
+				if(theList.get(x).relLoc == Dir.WEST.go(this.relLoc)){
+					nNums.add(x);
+				}
+			}
+			
+		}
+		
+		for(Integer x : nNums){
+			neiZones.add(theList.get(x));
+		}
+		
+		return neiZones;
 	}
 	
 }

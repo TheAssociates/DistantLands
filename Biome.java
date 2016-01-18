@@ -41,6 +41,11 @@ public enum Biome{
 		return biomes[DistantLands.random(rand,0,length-1)];
 	}
 	
+	public static Biome ranBiome(Zone mark){
+		ArrayList<Biome> temp = new ArrayList<Biome>();
+		
+	}
+	
 	public Biome ranBiome(Random rand){
 		ArrayList<Biome> temp = new ArrayList<Biome>();
 		for(Biome x : NeighborChance.keySet()){
