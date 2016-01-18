@@ -10,13 +10,11 @@ public class Zone{
 	public Region region;
 	
 	public Zone(ArrayList<Zone> theList){
+		
 		this.features = new ArrayList<Attribute>();
 		this.spiralLoc = theList.size();
 		this.relLoc = spTC(this.spiralLoc);
 		theList.add(this);
-		
-	
-		
 		
 	}
 	
