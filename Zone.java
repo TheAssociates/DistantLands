@@ -14,6 +14,8 @@ public class Zone{
 		this.features = new ArrayList<Attribute>();
 		this.spiralLoc = theList.size();
 		this.relLoc = spTC(this.spiralLoc);
+		this.biome = Biome.trueRanBiome();
+		
 		theList.add(this);
 		
 	}
