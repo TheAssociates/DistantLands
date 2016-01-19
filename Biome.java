@@ -1,3 +1,4 @@
+import net.slashie.libjcsi.CSIColor;
 import java.util.*;
 import java.io.*;
 
@@ -5,7 +6,7 @@ public enum Biome{
 	
 	SEA  ("ALL 0 SEA 8 COAST 1"),
 	COAST ("ALL 1 COAST 2 SEA 5"),
-	PLAIN ("ALL 1 PLAIN 5 SEA 0"),
+	PLAIN ("ALL 1 PLAIN 5 SEA 0",),
 	DESERT ("ALL 1 DESERT 5 SEA 0"),
 	FOREST ("ALL 1 FOREST 3 SEA 0"),
 	JUNGLE ("ALL 1 SEA 0 JUNGLE 3"),
