@@ -29,6 +29,6 @@ public class Region {
 		Arraylist<Point> used = new ArrayList<Point>();
 		Point a = new Point(x,y);
 		used.add(a);
-		//iterate through all tiles using two arraylists to check where you are and have been
+		//iterate through all tiles using two arraylists of arrays to check where you are and have been
 	}
 }
