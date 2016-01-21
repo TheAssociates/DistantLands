@@ -7,6 +7,7 @@ import java.util.Properties;
 public class Display{
 	
 	private Zone[][] worldMap;
+	private World theWorld;
 	
 	public Display(Zone[][] wM){
 		this.worldMap = wM;
@@ -15,18 +16,58 @@ public class Display{
 		text.setProperty("font", "DEFAULT");
 		WSwingConsoleInterface csi = null;
 		try{
-			csi = new WSwingConsoleInterface("COLOR TEST", text);
+			csi = new WSwingConsoleInterface(theWorld.name, text);
 		}
 		catch (ExceptionInInitializerError eiie) {
 			System.out.println("*** Error: Swing Console Box cannot be initialized. Exiting...");
 			eiie.printStackTrace();
 			System.exit(-1);
 		}
+		
+		
+		printArray(csi,3,3,zoneToString(worldMap),CSIColor.BLACK,zoneToBColor(worldMap));
+		
+	}
+	
+	public void printArray(WSwingConsoleInterface csi, int xUpL, int yUpL, String[][] strings, CSIColor FColor, CSIColor[][] BColor){
+		for(int i = 0; i < worldMap.length; i++){
+			for(int j = 0; j < worldMap.length; j++){
+				csi.print( xUpL + i , yUpL + j , strings[i][j] , FColor ,BColor[i][j] );
+			}
+		}
 	}
  	
+	public CSIColor[][] zoneToBColor(Zone[][] map){
+		CSIColor[][] output = new CSIColor[map.length][map.length];
+		for(int i = 0; i < map.length; i++){
+			for(int j = 0; j < map.length; j++){
+				switch(map[i][j].biome){
+					case SEA : output[i][j] = CSIColor.BLUE; break;
+					case COAST: output[i][j] = CSIColor.YELLOW;break;
+					case PLAIN : output[i][j] = CSIColor.LIGHTGREEN;break;
+					case DESERT : output[i][j] = CSIColor.TAN;break;
+					case FOREST : output[i][j] = CSIColor.OLIVE;break;
+					case JUNGLE : output[i][j] = CSIColor.GREEN;break;
+					case HILL : output[i][j] = CSIColor.BROWN;break;
+					case MOUNTAIN : output[i][j] = CSIColor.GRAY;break;
+					case TUNDRA : output[i][j] = CSIColor.WHITE;break;
+					case TAIGA : output[i][j] = CSIColor.STEEL_BLUE;break;
+					default : output[i][j] = CSIColor.BLACK; break;
+				}
+			}
+		}
+		return output;
+	}
 	
-	
-	
+	public String[][] zoneToString(Zone[][] map){
+		String[][] output = new [map.length][map.length];
+		for(int i = 0; i < map.length; i++){
+			for(int j = 0; j < map.length; j++){
+				output[i][j] = " ";
+			}
+		}
+		return output;
+	}
 	
 	
 	

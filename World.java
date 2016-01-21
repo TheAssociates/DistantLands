@@ -2,6 +2,7 @@ public class World{
 	
 	public ArrayList<Zone> TheZones;
 	public ArrayList<Region> TheRegions;
+	public String name;
 	
 	
 	public World(int TileCount){
@@ -15,5 +16,7 @@ public class World{
 		
 		
 	}
+	
+	
 	
 }
