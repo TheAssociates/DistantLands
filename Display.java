@@ -1,6 +1,7 @@
 import net.slashie.libjcsi.wswing.WSwingConsoleInterface;
 import net.slashie.libjcsi.ConsoleSystemInterface;
 import net.slashie.libjcsi.CSIColor;
+import net.slashie.libjcsi.CharKey;
 import java.util.Properties;
 
 
@@ -79,7 +80,7 @@ public class Display{
 				switch(map[i][j].biome){
 					case SEA : output[i][j] = CSIColor.BLUE; break;
 					case COAST: output[i][j] = CSIColor.YELLOW;break;
-					case PLAIN : output[i][j] = CSIColor.LIGHTGREEN;break;
+					case PLAIN : output[i][j] = CSIColor.SEA_GREEN;break;
 					case DESERT : output[i][j] = CSIColor.TAN;break;
 					case FOREST : output[i][j] = CSIColor.OLIVE;break;
 					case JUNGLE : output[i][j] = CSIColor.GREEN;break;

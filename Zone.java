@@ -15,13 +15,13 @@ public class Zone{
 		this.features = new ArrayList<Attribute>();
 		this.spiralLoc = theList.size();
 		this.relLoc = spTC(this.spiralLoc);
-		this.biome = Biome.trueRanBiome();
+		this.biome = Biome.trueRanBiome(DistantLands.rand);
 		
 		theList.add(this);
 		
 	}
 	
-	private static final int nextSquare(int num){
+	private static final int lastSquare(int num){
 		int out = 0;
 		while(num < out*out){
 			out++;
@@ -62,6 +62,7 @@ public class Zone{
 	public final void setRegion(Region reg){
 		this.region = reg;
 	}
+	
 	
 	public static int[] spTC(int n){
 		Complex i = new Complex(0,1);

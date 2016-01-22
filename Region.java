@@ -2,6 +2,8 @@ import java.util.*;
 import java.lang.*;
 import java.io.*;
 
+
+
 public class Region {
 	
 	public ArrayList<Zone> region;
@@ -23,10 +25,10 @@ public class Region {
 		}
 	}
 	
-	public defineRegion() {
+	public void defineRegion() {
 		int y = loc0[0];
 		int x = loc0[1];
-		Arraylist<Point> used = new ArrayList<Point>();
+		ArrayList<Point> used = new ArrayList<Point>();
 		Point a = new Point(x,y);
 		used.add(a);
 		//iterate through all tiles using two arraylists of arrays to check where you are and have been

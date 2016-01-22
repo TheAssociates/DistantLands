@@ -6,7 +6,7 @@ public enum Biome{
 	
 	SEA  ("ALL 0 SEA 8 COAST 1"),
 	COAST ("ALL 1 COAST 2 SEA 5"),
-	PLAIN ("ALL 1 PLAIN 5 SEA 0",),
+	PLAIN ("ALL 1 PLAIN 5 SEA 0"),
 	DESERT ("ALL 1 DESERT 5 SEA 0"),
 	FOREST ("ALL 1 FOREST 3 SEA 0"),
 	JUNGLE ("ALL 1 SEA 0 JUNGLE 3"),
@@ -15,8 +15,8 @@ public enum Biome{
 	TUNDRA ("ALL 0 MOUNTAIN 1 TUNDRA 8 TAIGA 3 COAST 1"),
 	TAIGA ("ALL 0 MOUNTAIN 1 TUNDRA 4");
 	
-	private static final int length = Biome.values().length;
-	private static final Biome[] biomes = Biome.values();
+	private static final int length = Biome.values().size();
+	private static final Biome[] biomes = Biome.values().toArray();
 	private final HashMap<Biome,Integer> NeighborChance;
 	
 	Biome(String ChanceList){
@@ -42,9 +42,9 @@ public enum Biome{
 		return biomes[DistantLands.random(rand,0,length-1)];
 	}
 	
-	public static Biome ranBiome(Zone mark){
+	public Biome ranBiome(Random rand, Zone mark){
 		ArrayList<Biome> temp = new ArrayList<Biome>();
-		
+		return trueRanBiome(rand);
 	}
 	
 	public Biome ranBiome(Random rand){

@@ -3,7 +3,11 @@ import java.io.*;
 
 public class DistantLands{
 	
+	public static Random rand;
+	
+	
 	public static void main(String[] args){
+		rand = new Random();
 		World world = new World(64);
 		Display window = new Display(Zone.spiralToArray(world.TheZones));
 	}
