@@ -25,7 +25,42 @@ public class Display{
 		}
 		
 		
+		int x = 3;
+		int y = 3;
+		boolean stop = false;
+		
+		String[][] overlaybackup = zoneToString(worldMap);
+		
+		String[][] overlay = overlaybackup;
+		
+		
 		printArray(csi,3,3,zoneToString(worldMap),CSIColor.BLACK,zoneToBColor(worldMap));
+		
+		
+		while(!stop){
+			csi.cls();
+			overlay[x][y] = "X";
+			printArray(csi,3,3,overlay,CSIColor.BLACK,zoneToBColor(worldMap));
+			csi.refresh();
+			overlay = overlaybackup;
+			CharKey dir = csi.inkey();
+			if(dir.isUpArrow()&& (y-1 >= 0)){
+				y--;
+			}
+			if(dir.isDownArrow() && (y+1 < 25)){
+				y++;
+			}
+			if(dir.isLeftArrow() && (x-1 >= 0)){
+				x--;
+			}
+			if(dir.isRightArrow() && (x+1 < 80)){
+				x++;
+			}
+			if(dir.code == CharKey.Q){
+				stop = true;
+			}
+		}
+		System.exit(0);
 		
 	}
 	
@@ -60,7 +95,7 @@ public class Display{
 	}
 	
 	public String[][] zoneToString(Zone[][] map){
-		String[][] output = new [map.length][map.length];
+		String[][] output = new String[map.length][map.length];
 		for(int i = 0; i < map.length; i++){
 			for(int j = 0; j < map.length; j++){
 				output[i][j] = " ";
