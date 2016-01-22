@@ -8,8 +8,8 @@ public class DistantLands{
 	
 	public static void main(String[] args){
 		rand = new Random();
-		World world = new World(64);
-		Display window = new Display(Zone.spiralToArray(world.TheZones));
+		World world = new World(81);
+		Display window = new Display(Zone.spiralToArray(world.TheZones),world);
 	}
 	
 	public static int random(Random rand,int num1,int num2){  //returns a random value between num1 and num2 (inclusive)

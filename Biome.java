@@ -15,31 +15,32 @@ public enum Biome{
 	TUNDRA ("ALL 0 MOUNTAIN 1 TUNDRA 8 TAIGA 3 COAST 1"),
 	TAIGA ("ALL 0 MOUNTAIN 1 TUNDRA 4");
 	
-	private static final int length = Biome.values().size();
-	private static final Biome[] biomes = Biome.values().toArray();
-	private final HashMap<Biome,Integer> NeighborChance;
+	private final HashMap<String,Integer> NeighborChance;
+	
+
 	
 	Biome(String ChanceList){
+		String[] biomes = { "SEA","COAST","PLAIN","DESERT","FOREST","JUNGLE","HILL","MOUNTAIN","TUNDRA","TAIGA"};
 		Scanner chances = new Scanner(ChanceList);
-		this.NeighborChance = new HashMap<Biome,Integer>();
+		this.NeighborChance = new HashMap<String,Integer>();
 		String temp = "";
 		int temp1 = 0;
 		while(chances.hasNext()){
 			temp = chances.next();
 			temp1 = chances.nextInt();
 			if(temp.equals("ALL")){
-				for(Biome x : Biome.values()){
+				for(String x : biomes){
 					NeighborChance.put(x,new Integer(temp1));
 				}
 			}
 			else{
-				NeighborChance.put(Biome.valueOf(temp),new Integer(temp1));
+				NeighborChance.put(temp,new Integer(temp1));
 			}
 		}
 	}
 	
 	public static Biome trueRanBiome(Random rand){
-		return biomes[DistantLands.random(rand,0,length-1)];
+		return Biome.values()[DistantLands.random(rand,0,Biome.values().length-1)];
 	}
 	
 	public Biome ranBiome(Random rand, Zone mark){
@@ -49,23 +50,17 @@ public enum Biome{
 	
 	public Biome ranBiome(Random rand){
 		ArrayList<Biome> temp = new ArrayList<Biome>();
-		for(Biome x : NeighborChance.keySet()){
+		for(String x : NeighborChance.keySet()){
 			for(int i = 0; i < NeighborChance.get(x); i++){
-				temp.add(x);
+				temp.add(valueOf(x));
 			}
 		}
 		return temp.get(DistantLands.random(rand,0,temp.size()));
 	}
 	
 	//get Final fields below
+
 	
-	public static final int size(){
-		return length;
-	}
-	
-	public static final Biome[] getBiomes(){
-		return biomes;
-	}
 	
 	
 	//utility 

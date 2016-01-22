@@ -3,6 +3,9 @@ import net.slashie.libjcsi.ConsoleSystemInterface;
 import net.slashie.libjcsi.CSIColor;
 import net.slashie.libjcsi.CharKey;
 import java.util.Properties;
+import java.util.*;
+import java.io.*;
+
 
 
 public class Display{
@@ -10,8 +13,9 @@ public class Display{
 	private Zone[][] worldMap;
 	private World theWorld;
 	
-	public Display(Zone[][] wM){
+	public Display(Zone[][] wM,World w){
 		this.worldMap = wM;
+		this.theWorld = w;
 		Properties text = new Properties();
 		text.setProperty("fontSize","10");
 		text.setProperty("font", "DEFAULT");
@@ -30,36 +34,39 @@ public class Display{
 		int y = 3;
 		boolean stop = false;
 		
-		String[][] overlaybackup = zoneToString(worldMap);
-		
-		String[][] overlay = overlaybackup;
-		
+		String[][] overlay = zoneToString(worldMap);
+		overlay[x][y] = "X";
 		
 		printArray(csi,3,3,zoneToString(worldMap),CSIColor.BLACK,zoneToBColor(worldMap));
 		
 		
 		while(!stop){
 			csi.cls();
-			overlay[x][y] = "X";
 			printArray(csi,3,3,overlay,CSIColor.BLACK,zoneToBColor(worldMap));
 			csi.refresh();
-			overlay = overlaybackup;
-			CharKey dir = csi.inkey();
-			if(dir.isUpArrow()&& (y-1 >= 0)){
-				y--;
+			overlay = zoneToString(worldMap);
+			try{
+				CharKey dir = csi.inkey();
+				if(dir.isUpArrow()&& (y-1 >= 0)){
+					y--;
+				}
+				if(dir.isDownArrow() && (y+1 < 25)){
+					y++;
+				}
+				if(dir.isLeftArrow() && (x-1 >= 0)){
+					x--;
+				}
+				if(dir.isRightArrow() && (x+1 < 80)){
+					x++;
+				}
+				if(dir.code == CharKey.Q){
+					stop = true;
+				}
+				overlay[x][y] = "X";
+			} catch(ArrayIndexOutOfBoundsException g){
+				System.exit(0);
 			}
-			if(dir.isDownArrow() && (y+1 < 25)){
-				y++;
-			}
-			if(dir.isLeftArrow() && (x-1 >= 0)){
-				x--;
-			}
-			if(dir.isRightArrow() && (x+1 < 80)){
-				x++;
-			}
-			if(dir.code == CharKey.Q){
-				stop = true;
-			}
+			
 		}
 		System.exit(0);
 		
@@ -77,19 +84,24 @@ public class Display{
 		CSIColor[][] output = new CSIColor[map.length][map.length];
 		for(int i = 0; i < map.length; i++){
 			for(int j = 0; j < map.length; j++){
-				switch(map[i][j].biome){
-					case SEA : output[i][j] = CSIColor.BLUE; break;
-					case COAST: output[i][j] = CSIColor.YELLOW;break;
-					case PLAIN : output[i][j] = CSIColor.SEA_GREEN;break;
-					case DESERT : output[i][j] = CSIColor.TAN;break;
-					case FOREST : output[i][j] = CSIColor.OLIVE;break;
-					case JUNGLE : output[i][j] = CSIColor.GREEN;break;
-					case HILL : output[i][j] = CSIColor.BROWN;break;
-					case MOUNTAIN : output[i][j] = CSIColor.GRAY;break;
-					case TUNDRA : output[i][j] = CSIColor.WHITE;break;
-					case TAIGA : output[i][j] = CSIColor.STEEL_BLUE;break;
-					default : output[i][j] = CSIColor.BLACK; break;
+				try{
+					switch(map[i][j].biome){
+						case SEA : output[i][j] = CSIColor.BLUE; break;
+						case COAST: output[i][j] = CSIColor.YELLOW;break;
+						case PLAIN : output[i][j] = CSIColor.SEA_GREEN;break;
+						case DESERT : output[i][j] = CSIColor.TAN;break;
+						case FOREST : output[i][j] = CSIColor.OLIVE;break;
+						case JUNGLE : output[i][j] = CSIColor.GREEN;break;
+						case HILL : output[i][j] = CSIColor.BROWN;break;
+						case MOUNTAIN : output[i][j] = CSIColor.GRAY;break;
+						case TUNDRA : output[i][j] = CSIColor.WHITE;break;
+						case TAIGA : output[i][j] = CSIColor.STEEL_BLUE;break;
+						default : output[i][j] = CSIColor.BLACK; break;
+					}
+				} catch(NullPointerException g){
+					output[i][j] = CSIColor.BLACK;
 				}
+				
 			}
 		}
 		return output;

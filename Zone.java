@@ -21,9 +21,13 @@ public class Zone{
 		
 	}
 	
+	public String toString(){
+		return ""+biome;
+	}
+	
 	private static final int lastSquare(int num){
 		int out = 0;
-		while(num < out*out){
+		while(num > out*out){
 			out++;
 		}
 		--out;
@@ -32,7 +36,7 @@ public class Zone{
 	
 	private static final int nextSquare(int num){
 		int out = 0;
-		while(num < out*out){
+		while(num > out*out){
 			out++;
 		}
 		return out*out;
@@ -47,13 +51,14 @@ public class Zone{
 	}
 	
 	public static final Zone[][] spiralToArray(ArrayList<Zone> finishedList){
-		int sideLen = (int)Math.sqrt(nextSquare(finishedList.size()));
+		int sideLen = (int)Math.sqrt(nextSquare(finishedList.size())) + 2;
 		Zone[][] out = new Zone[sideLen][sideLen];
 		int[] origin = {sideLen/2 + 1,sideLen/2 + 1};
-		Arrays.fill(out,null);
 		int[] locdat = new int[2];
 		for(Zone x : finishedList){
 			locdat = relLocToAbsLoc(x.relLoc,origin);
+			System.out.println(x.toString());
+			System.out.println(out[locdat[0]][locdat[1]]);
 			out[locdat[0]][locdat[1]] = x; 
 		}
 		return out;
