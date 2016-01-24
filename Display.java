@@ -43,6 +43,7 @@ public class Display{
 		while(!stop){
 			csi.cls();
 			printArray(csi,3,3,overlay,CSIColor.BLACK,zoneToBColor(worldMap));
+			csi.print(1,1, getAtLoc(x,y).biome.toString(), CSIColor.WHITE);
 			csi.refresh();
 			overlay = zoneToString(worldMap);
 			try{
@@ -64,12 +65,23 @@ public class Display{
 				}
 				overlay[x][y] = "X";
 			} catch(ArrayIndexOutOfBoundsException g){
-				System.exit(0);
+				x = 6;
+				y= 6;
+			} catch (NullPointerException h){
+				x = 6;
+				y= 6;
 			}
 			
 		}
 		System.exit(0);
 		
+	}
+	
+	private Zone getAtLoc(int x, int y){
+		if(worldMap[x][y] == null){
+			return theWorld.TheZones.get(0);
+		}
+		return worldMap[x][y];
 	}
 	
 	public void printArray(WSwingConsoleInterface csi, int xUpL, int yUpL, String[][] strings, CSIColor FColor, CSIColor[][] BColor){

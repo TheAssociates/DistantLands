@@ -17,6 +17,10 @@ public class Zone{
 		this.relLoc = spTC(this.spiralLoc);
 		this.biome = Biome.ranBiome(DistantLands.rand,this);
 		
+		if(spiralLoc == 0){
+			this.biome = Biome.SEA;
+		}
+		
 		theList.add(this);
 		
 	}
@@ -57,8 +61,6 @@ public class Zone{
 		int[] locdat = new int[2];
 		for(Zone x : finishedList){
 			locdat = relLocToAbsLoc(x.relLoc,origin);
-			System.out.println(x.toString());
-			System.out.println(out[locdat[0]][locdat[1]]);
 			out[locdat[0]][locdat[1]] = x; 
 		}
 		return out;
@@ -76,8 +78,7 @@ public class Zone{
 			try{
 				temp.add(theList.get(cTSP(x.go(this.relLoc))));
 			} catch (NullPointerException g){
-				
-			}
+			} catch (ArrayIndexOutOfBoundsException h){}
 			
 		}
 		Zone[] typecast = new Zone[0];

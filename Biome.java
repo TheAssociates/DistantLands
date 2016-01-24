@@ -4,7 +4,7 @@ import java.io.*;
 
 public enum Biome{
 	
-	SEA  ("ALL 0 SEA 8 COAST 1"),
+	SEA  ("ALL 0 SEA 80 COAST 10"),
 	COAST ("ALL 1 COAST 2 SEA 5"),
 	PLAIN ("ALL 1 PLAIN 5 SEA 0"),
 	DESERT ("ALL 1 DESERT 5 SEA 0"),
