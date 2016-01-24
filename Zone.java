@@ -15,14 +15,14 @@ public class Zone{
 		this.features = new ArrayList<Attribute>();
 		this.spiralLoc = theList.size();
 		this.relLoc = spTC(this.spiralLoc);
-		this.biome = Biome.trueRanBiome(DistantLands.rand);
+		this.biome = Biome.ranBiome(DistantLands.rand,this);
 		
 		theList.add(this);
 		
 	}
 	
 	public String toString(){
-		return ""+biome;
+		return ""+biome + " " + spiralLoc + " " + Arrays.toString(relLoc);
 	}
 	
 	private static final int lastSquare(int num){
@@ -68,6 +68,76 @@ public class Zone{
 		this.region = reg;
 	}
 	
+	public Zone[] neighbors(){
+		ArrayList<Zone> temp = new ArrayList<Zone>();
+		Dir[] neighborDirs = {Dir.NORTH,Dir.SOUTH,Dir.EAST,Dir.WEST};
+		for(Dir x : neighborDirs ){
+			
+			try{
+				temp.add(theList.get(cTSP(x.go(this.relLoc))));
+			} catch (NullPointerException g){
+				
+			}
+			
+		}
+		Zone[] typecast = new Zone[0];
+		Zone[] out = temp.toArray(typecast);
+		return out;
+	}
+	
+	public static int cTSP(int[] loc){
+		int ring;
+		char onring;
+		int base;
+		int out;
+		if(Math.abs(loc[0]) > Math.abs(loc[1])){
+			ring = Math.abs((int)loc[0]);
+			onring = 'x';
+			
+			if(loc[0] >= 0){
+				base = loc[0]*(4*loc[0] + 3);
+			} else {
+				base = loc[0]*(4*loc[0] - 1);
+			}
+			out = base + loc[1];
+				
+		} else {
+			ring = (int)Math.abs(loc[1]);
+			onring = 'y';
+			
+			if(loc[1] >= 0){
+				base = loc[0]*(4*loc[0] - 3);
+			} else {
+				base = loc[0]*(4*loc[0] + 1);
+			}	
+			out = base + loc[0];	
+		}
+		
+		return out;
+	}
+		
+	
+	
+	private static int largest(int[] set){
+		int i = set[0];
+		for(int x : set){
+			if(x > i){
+				i = x;
+			}
+		}
+		return i;
+	}
+	
+	private static int smallest(int[] set){
+		int i = set[0];
+		for(int x : set){
+			if(x < i){
+				i = x;
+			}
+		}
+		return i;
+	}
+	
 	
 	public static int[] spTC(int n){
 		Complex i = new Complex(0,1);
@@ -101,51 +171,6 @@ public class Zone{
 		
 	}
 	
-	public ArrayList<Zone> neighbors(){
-		Integer targ = new Integer(this.spiralLoc);
-		ArrayList<Integer> toChk = new ArrayList<Integer>();
-		ArrayList<Integer> nNums = new ArrayList<Integer>();
-		ArrayList<Zone> neiZones = new ArrayList<Zone>();
-		nNums.add(targ + 1);
-		nNums.add(targ - 1);
-		
-		if(nextSquare(targ) == targ){
-			
-			nNums.add(nextSquare(nextSquare(targ)+1)+1);
-			nNums.add(nextSquare(nextSquare(targ)+1)-1);
-			
-		} else {
-			
-			for(int i = nextSquare(nextSquare(nextSquare(targ)-1)-1); i < nextSquare(nextSquare(targ)-1); i++){
-				toChk.add(new Integer(i));
-			}
-			
-			for(int i = nextSquare(nextSquare(nextSquare(targ)+1)+1); i < nextSquare(nextSquare(targ)+1); i++){
-				toChk.add(new Integer(i));
-			}
-			
-			for(Integer x : toChk){
-				if(theList.get(x).relLoc == Dir.NORTH.go(this.relLoc)){
-					nNums.add(x);
-				}
-				if(theList.get(x).relLoc == Dir.SOUTH.go(this.relLoc)){
-					nNums.add(x);
-				}
-				if(theList.get(x).relLoc == Dir.EAST.go(this.relLoc)){
-					nNums.add(x);
-				}
-				if(theList.get(x).relLoc == Dir.WEST.go(this.relLoc)){
-					nNums.add(x);
-				}
-			}
-			
-		}
-		
-		for(Integer x : nNums){
-			neiZones.add(theList.get(x));
-		}
-		
-		return neiZones;
-	}
+	
 	
 }

@@ -43,19 +43,27 @@ public enum Biome{
 		return Biome.values()[DistantLands.random(rand,0,Biome.values().length-1)];
 	}
 	
-	public Biome ranBiome(Random rand, Zone mark){
-		ArrayList<Biome> temp = new ArrayList<Biome>();
-		return trueRanBiome(rand);
+	public static Biome ranBiome(Random rand,Zone y){
+		ArrayList<String> temp = new ArrayList<String>();
+		int t = 0;
+		try{
+			for(Zone x : y.neighbors()){
+				t = x.biome.getNC().get(x.biome);
+				for(int i = 0; i < t; i++){
+					temp.add(x.biome.toString());
+				}
+			}
+			String out = temp.get(DistantLands.random(rand,0,temp.size()));
+			return valueOf(out);
+		} catch (IndexOutOfBoundsException g){
+			return trueRanBiome(rand);
+		}
+		
 	}
 	
-	public Biome ranBiome(Random rand){
-		ArrayList<Biome> temp = new ArrayList<Biome>();
-		for(String x : NeighborChance.keySet()){
-			for(int i = 0; i < NeighborChance.get(x); i++){
-				temp.add(valueOf(x));
-			}
-		}
-		return temp.get(DistantLands.random(rand,0,temp.size()));
+	
+	public HashMap<String,Integer> getNC(){
+		return NeighborChance;
 	}
 	
 	//get Final fields below
