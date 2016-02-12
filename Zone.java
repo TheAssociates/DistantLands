@@ -12,6 +12,7 @@ public class Zone{
 	
 	public Zone(ArrayList<Zone> theList){
 		
+		this.theList = theList;
 		this.features = new ArrayList<Attribute>();
 		this.spiralLoc = theList.size();
 		this.relLoc = spTC(this.spiralLoc);
@@ -19,6 +20,7 @@ public class Zone{
 		
 		if(spiralLoc == 0){
 			this.biome = Biome.SEA;
+			System.out.println("DEFAULT SEA");
 		}
 		
 		theList.add(this);
@@ -73,16 +75,20 @@ public class Zone{
 	public Zone[] neighbors(){
 		ArrayList<Zone> temp = new ArrayList<Zone>();
 		Dir[] neighborDirs = {Dir.NORTH,Dir.SOUTH,Dir.EAST,Dir.WEST};
+	
+		if(cTSP(this.relLoc) != this.spiralLoc ) System.out.println( Arrays.toString(this.relLoc) + " " + cTSP(this.relLoc) + " " + this.spiralLoc);
+		
 		for(Dir x : neighborDirs ){
-			
-			try{
+			if(theList != null && cTSP(x.go(this.relLoc)) < theList.size()){
 				temp.add(theList.get(cTSP(x.go(this.relLoc))));
-			} catch (NullPointerException g){
-			} catch (ArrayIndexOutOfBoundsException h){}
+				
+			}
+				
 			
 		}
 		Zone[] typecast = new Zone[0];
 		Zone[] out = temp.toArray(typecast);
+		if(out.length == 0){System.out.println("NO NEIGHBORS");}
 		return out;
 	}
 	
@@ -91,32 +97,40 @@ public class Zone{
 		char onring;
 		int base;
 		int out;
+		
+		int absloc0 = (int)Math.abs(loc[0]);
+		int absloc1 = (int)Math.abs(loc[1]);
+		
 		if(Math.abs(loc[0]) > Math.abs(loc[1])){
-			ring = Math.abs((int)loc[0]);
-			onring = 'x';
 			
 			if(loc[0] >= 0){
-				base = loc[0]*(4*loc[0] + 3);
+				base = absloc0*(4*absloc0 + 3);
+				out = base + loc[1];
 			} else {
-				base = loc[0]*(4*loc[0] - 1);
+				base = absloc0*(4*absloc0 - 1);
+				out = base - loc[1];
 			}
-			out = base + loc[1];
+			
 				
+		} else if (loc[0] == loc[1] && loc[0] > 0 ){
+			
+			base = absloc0*(4*absloc0 + 3);
+			out = base + loc[1];
+			
 		} else {
-			ring = (int)Math.abs(loc[1]);
-			onring = 'y';
 			
 			if(loc[1] >= 0){
-				base = loc[0]*(4*loc[0] - 3);
+				base = absloc1*(4*absloc1 - 3);
+				out = base + loc[0];
 			} else {
-				base = loc[0]*(4*loc[0] + 1);
+				base = absloc1*(4*absloc1 + 1);
+				out = base - loc[0];
 			}	
-			out = base + loc[0];	
+				
 		}
 		
 		return out;
 	}
-		
 	
 	
 	private static int largest(int[] set){
@@ -167,7 +181,7 @@ public class Zone{
 		
 		Complex total = t7.plus(t1);
 		
-		int[] out = {(int)total.im(), (int)total.re()};
+		int[] out = {(int)total.re(), (int)total.im()};
 		return out;
 		
 	}

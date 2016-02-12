@@ -29,8 +29,8 @@ public class WSwingConsoleInterface implements ConsoleSystemInterface, Runnable,
 
     // Static Attributes
     public static Font consoleFont;
-    public static int xdim = 80;
-    public static int ydim = 25;
+    public static int xdim = 160;
+    public static int ydim = 50;
     private CSIColor[][] colors;
 	private CSIColor[][] backcolors;
     private char[][] chars;

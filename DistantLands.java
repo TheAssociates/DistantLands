@@ -8,7 +8,7 @@ public class DistantLands{
 	
 	public static void main(String[] args){
 		rand = new Random();
-		World world = new World(81);
+		World world = new World(1849);
 		Display window = new Display(Zone.spiralToArray(world.TheZones),world);
 	}
 	

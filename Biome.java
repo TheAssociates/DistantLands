@@ -4,7 +4,7 @@ import java.io.*;
 
 public enum Biome{
 	
-	SEA  ("ALL 0 SEA 80 COAST 10"),
+	SEA  ("ALL 0 SEA 8 COAST 2"),
 	COAST ("ALL 1 COAST 2 SEA 5"),
 	PLAIN ("ALL 1 PLAIN 5 SEA 0"),
 	DESERT ("ALL 1 DESERT 5 SEA 0"),
@@ -15,7 +15,7 @@ public enum Biome{
 	TUNDRA ("ALL 0 MOUNTAIN 1 TUNDRA 8 TAIGA 3 COAST 1"),
 	TAIGA ("ALL 0 MOUNTAIN 1 TUNDRA 4");
 	
-	private final HashMap<String,Integer> NeighborChance;
+	private HashMap<String,Integer> NeighborChance;
 	
 
 	
@@ -48,14 +48,20 @@ public enum Biome{
 		int t = 0;
 		try{
 			for(Zone x : y.neighbors()){
-				t = x.biome.getNC().get(x.biome);
-				for(int i = 0; i < t; i++){
-					temp.add(x.biome.toString());
+				HashMap<String,Integer> tmap = x.biome.getNC();
+				for(String z : tmap.keySet()){
+					t = tmap.get(z);
+					for(int i = 0; i < t; i++){
+						temp.add(z);
+
+					}
 				}
+				
 			}
-			String out = temp.get(DistantLands.random(rand,0,temp.size()));
+			String out = temp.get(DistantLands.random(rand,0,temp.size()-1));
 			return valueOf(out);
 		} catch (IndexOutOfBoundsException g){
+			System.out.println("DEFAULTING TO TRUE RANDOM");
 			return trueRanBiome(rand);
 		}
 		
