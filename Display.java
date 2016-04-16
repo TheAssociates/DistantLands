@@ -13,6 +13,11 @@ public class Display{
 	private Zone[][] worldMap;
 	private World theWorld;
 	
+	private int OFFX = 0;
+	private int OFFY = 0;
+	
+	
+	
 	public Display(Zone[][] wM,World w){
 		this.worldMap = wM;
 		this.theWorld = w;
@@ -37,12 +42,12 @@ public class Display{
 		String[][] overlay = zoneToString(worldMap);
 		overlay[x][y] = "X";
 		
-		printArray(csi,3,3,zoneToString(worldMap),CSIColor.BLACK,zoneToBColor(worldMap));
+		printArray(csi,OFFX,OFFY,zoneToString(worldMap),CSIColor.BLACK,zoneToBColor(worldMap));
 		
 		
 		while(!stop){
 			csi.cls();
-			printArray(csi,3,3,overlay,CSIColor.BLACK,zoneToBColor(worldMap));
+			printArray(csi,OFFX,OFFY,overlay,CSIColor.BLACK,zoneToBColor(worldMap));
 			csi.print(1,1, getAtLoc(x,y).biome.toString(), CSIColor.WHITE);
 			csi.refresh();
 			overlay = zoneToString(worldMap);
@@ -65,11 +70,11 @@ public class Display{
 				}
 				overlay[x][y] = "X";
 			} catch(ArrayIndexOutOfBoundsException g){
-				x = 6;
-				y= 6;
+				x = 3;
+				y= 3;
 			} catch (NullPointerException h){
-				x = 6;
-				y= 6;
+				x = 3;
+				y= 3;
 			}
 			
 		}

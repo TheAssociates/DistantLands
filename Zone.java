@@ -9,13 +9,14 @@ public class Zone{
 	public int[] relLoc;
 	public Region region;
 	public ArrayList<Zone> theList;
+	public UmalHandler sph;
 	
-	public Zone(ArrayList<Zone> theList){
-		
+	public Zone(ArrayList<Zone> theList, UmalHandler sph1){
+		this.sph = sph1;
 		this.theList = theList;
 		this.features = new ArrayList<Attribute>();
 		this.spiralLoc = theList.size();
-		this.relLoc = spTC(this.spiralLoc);
+		this.relLoc = sph.spTC(this.spiralLoc);
 		this.biome = Biome.ranBiome(DistantLands.rand,this);
 		
 		if(spiralLoc == 0){
@@ -31,22 +32,7 @@ public class Zone{
 		return ""+biome + " " + spiralLoc + " " + Arrays.toString(relLoc);
 	}
 	
-	private static final int lastSquare(int num){
-		int out = 0;
-		while(num > out*out){
-			out++;
-		}
-		--out;
-		return out*out;
-	}
 	
-	private static final int nextSquare(int num){
-		int out = 0;
-		while(num > out*out){
-			out++;
-		}
-		return out*out;
-	}
 	
 	private static final int[] relLocToAbsLoc(int[] relLoc, int[] origin){
 		int[] out = new int[2];
@@ -58,6 +44,9 @@ public class Zone{
 	
 	public static final Zone[][] spiralToArray(ArrayList<Zone> finishedList){
 		int sideLen = (int)Math.sqrt(nextSquare(finishedList.size())) + 2;
+		System.out.println("SideLen: " + sideLen);
+		System.out.println("fL: " + finishedList.size());
+		System.out.println("nxtSqr " + nextSquare(finishedList.size()));
 		Zone[][] out = new Zone[sideLen][sideLen];
 		int[] origin = {sideLen/2 + 1,sideLen/2 + 1};
 		int[] locdat = new int[2];
@@ -75,12 +64,11 @@ public class Zone{
 	public Zone[] neighbors(){
 		ArrayList<Zone> temp = new ArrayList<Zone>();
 		Dir[] neighborDirs = {Dir.NORTH,Dir.SOUTH,Dir.EAST,Dir.WEST};
-	
-		if(cTSP(this.relLoc) != this.spiralLoc ) System.out.println( Arrays.toString(this.relLoc) + " " + cTSP(this.relLoc) + " " + this.spiralLoc);
 		
 		for(Dir x : neighborDirs ){
-			if(theList != null && cTSP(x.go(this.relLoc)) < theList.size()){
-				temp.add(theList.get(cTSP(x.go(this.relLoc))));
+			try{
+				temp.add(this.theList.get(sph.cTSP(x.go(sph.spTC(this.spiralLoc)))));
+			} catch(Exception e){
 				
 			}
 				
@@ -92,44 +80,14 @@ public class Zone{
 		return out;
 	}
 	
-	public static int cTSP(int[] loc){
-		int ring;
-		char onring;
-		int base;
-		int out;
-		
-		int absloc0 = (int)Math.abs(loc[0]);
-		int absloc1 = (int)Math.abs(loc[1]);
-		
-		if(Math.abs(loc[0]) > Math.abs(loc[1])){
-			
-			if(loc[0] >= 0){
-				base = absloc0*(4*absloc0 + 3);
-				out = base + loc[1];
-			} else {
-				base = absloc0*(4*absloc0 - 1);
-				out = base - loc[1];
-			}
-			
-				
-		} else if (loc[0] == loc[1] && loc[0] > 0 ){
-			
-			base = absloc0*(4*absloc0 + 3);
-			out = base + loc[1];
-			
-		} else {
-			
-			if(loc[1] >= 0){
-				base = absloc1*(4*absloc1 - 3);
-				out = base + loc[0];
-			} else {
-				base = absloc1*(4*absloc1 + 1);
-				out = base - loc[0];
-			}	
-				
+	
+	private static int nextSquare(int x){
+		int j = 0;
+		for(int i = 1; i*i < x; i++){
+			j = i;
 		}
-		
-		return out;
+		j++;
+		return j*j;
 	}
 	
 	
@@ -152,39 +110,7 @@ public class Zone{
 		}
 		return i;
 	}
-	
-	
-	public static int[] spTC(int n){
-		Complex i = new Complex(0,1);
-		int p = (int)Math.sqrt(4*n + 1);
-		int q = n - (int)(p*p/4);
-		
-		Complex t1 = new Complex(0,1);
-		for(int j = 1; j < p; j++){
-			t1 = t1.times(i);
-		}
-		t1 = t1.times(new Complex(q,0));
-		
-		int t2 = (int)((p+2)/4);
-		int t3 = (int)((p+1)/4);
-		
-		Complex t4 = (new Complex(t3,0)).times(i);
-		
-		Complex t5 = (new Complex(t2,0)).minus(t4);
-		
-		Complex t6 = new Complex(0,1);
-		for(int j = 1; j < p-1; j++){
-			t6 = t6.times(i);
-		}
-		
-		Complex t7 = t5.times(t6);
-		
-		Complex total = t7.plus(t1);
-		
-		int[] out = {(int)total.re(), (int)total.im()};
-		return out;
-		
-	}
+
 	
 	
 	

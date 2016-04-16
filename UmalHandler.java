@@ -1,33 +1,82 @@
-/******************************************************************************
- *  Compilation:  javac Complex.java
- *  Execution:    java Complex
- *
- *  Data type for complex numbers.
- *
- *  The data type is "immutable" so once you create and initialize
- *  a Complex object, you cannot change it. The "final" keyword
- *  when declaring re and im enforces this rule, making it a
- *  compile-time error to change the .re or .im fields after
- *  they've been initialized.
- *
- *  % java Complex
- *  a            = 5.0 + 6.0i
- *  b            = -3.0 + 4.0i
- *  Re(a)        = 5.0
- *  Im(a)        = 6.0
- *  b + a        = 2.0 + 10.0i
- *  a - b        = 8.0 + 2.0i
- *  a * b        = -39.0 + 2.0i
- *  b * a        = -39.0 + 2.0i
- *  a / b        = 0.36 - 1.52i
- *  (a / b) * b  = 5.0 + 6.0i
- *  conj(a)      = 5.0 - 6.0i
- *  |a|          = 7.810249675906654
- *  tan(a)       = -6.685231390246571E-6 + 1.0000103108981198i
- *
- ******************************************************************************/
+import java.util.*;
 
-public class Complex {
+
+public class UmalHandler{
+	
+	private final int squares;
+	private final HashMap<List<Integer>,Integer> stored ; 
+	
+	
+	public UmalHandler(int squareCt){
+		this.squares = squareCt;
+		stored = new HashMap<List<Integer>,Integer>();
+		for(int i = 0; i <= this.squares; i++ ){
+			stored.put(arrToL(spTC(i)),new Integer(i));
+		}
+	}
+	
+	
+	private static List<Integer> arrToL(int[] arr){
+		List<Integer> L = new ArrayList<Integer>();
+		for(int x : arr){
+			L.add(new Integer(x));
+		}
+		return L;
+	}
+	
+	public static int[] spTC(int n){
+		Complex i = new Complex(0,1);
+		int p = (int)Math.sqrt(4*n + 1);
+		int q = n - (int)(p*p/4);
+		
+		Complex t1 = new Complex(0,1);
+		for(int j = 1; j < p; j++){
+			t1 = t1.times(i);
+		}
+		t1 = t1.times(new Complex(q,0));
+		
+		int t2 = (int)((p+2)/4);
+		int t3 = (int)((p+1)/4);
+		
+		Complex t4 = (new Complex(t3,0)).times(i);
+		
+		Complex t5 = (new Complex(t2,0)).minus(t4);
+		
+		Complex t6 = new Complex(0,1);
+		for(int j = 1; j < p-1; j++){
+			t6 = t6.times(i);
+		}
+		
+		Complex t7 = t5.times(t6);
+		
+		Complex total = t7.plus(t1);
+		
+		int[] out = {(int)total.re(), (int)total.im()};
+		return out;
+		
+	}	
+	
+	public int cTSP(int[] loc){
+		Integer x = stored.get(arrToL(loc));
+		return x.intValue();
+	}
+	
+	public static void main(String[]args){
+		int num = 90;
+		UmalHandler handler = new UmalHandler(num);
+		
+		
+		for(int i = 0; i < num; i++){
+			int[] loc = handler.spTC(i);
+			int locn = handler.cTSP(loc);
+			System.out.println(i + " " + Arrays.toString(loc) + " " + locn);
+		}
+		
+	}
+	
+}
+
+class Complex {
     private final double re;   // the real part
     private final double im;   // the imaginary part
 
